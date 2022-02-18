@@ -1,0 +1,37 @@
+{
+  "name": "ethers-sandbox",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
+  },
+  "dependencies": {
+    "@material-ui/core": "^4.12.3",
+    "ethers": "^5.5.4",
+    "next": "12.0.10",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "swr": "^1.2.1",
+    "use-mutation": "^2.2.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.17.4",
+    "@storybook/addon-actions": "^6.4.19",
+    "@storybook/addon-essentials": "^6.4.19",
+    "@storybook/addon-interactions": "^6.4.19",
+    "@storybook/addon-links": "^6.4.19",
+    "@storybook/react": "^6.4.19",
+    "@storybook/testing-library": "^0.0.9",
+    "@types/node": "^17.0.18",
+    "@types/react": "^17.0.39",
+    "babel-loader": "^8.2.3",
+    "eslint": "8.9.0",
+    "eslint-config-next": "12.0.10",
+    "eslint-plugin-storybook": "^0.5.6",
+    "typescript": "^4.5.5"
+  }
+}
