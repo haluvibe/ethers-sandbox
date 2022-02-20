@@ -14,7 +14,15 @@ if (process.browser) {
   );
 }
 
-const useWallet = () => {
+const useWallet = (): {
+  loading?: boolean, 
+  accounts?: string[], 
+  address?: string, 
+  balance?: string, 
+  errorMessage: string
+  handleConnectWallet?: () => void, 
+  handleDisconnectWallet?: () => void, 
+} => {
 
     const {setHasListenerAttached, accounts, setAccounts, address, setAddress, balance, setBalance, loading, setLoading, setErrorMessage, errorMessage} = React.useContext(WalletContext);
   
@@ -104,7 +112,7 @@ const WalletProvider = ({ children }) => {
         window.ethereum.removeListener("accountsChanged", handleAccountsChanged)
       }
     }
-  }, [setErrorMessage, setAddress, setBalance, setAccounts, hasListenerAttached, signer])
+  }, [setErrorMessage, setAddress, setBalance, setAccounts, hasListenerAttached])
 
   return (
     <WalletContext.Provider value={{hasListenerAttached, setHasListenerAttached, accounts, setAccounts, address, setAddress, balance, setBalance, loading, setLoading, errorMessage, setErrorMessage}}>
@@ -113,4 +121,4 @@ const WalletProvider = ({ children }) => {
   );
 };
 
-export { WalletProvider, useWallet };
+export { WalletProvider, useWallet, provider, signer };

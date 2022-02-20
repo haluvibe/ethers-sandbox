@@ -1,34 +1,20 @@
+import { Container } from '@material-ui/core'
 import React from 'react'
-import { Button, ButtonTypes } from '../presentational/elements/button/Button'
+import { ErrorMessage } from '../presentational/modules/ErrorMessage'
+import { Status } from '../presentational/modules/Status'
+import { WalletDetails } from '../presentational/modules/WalletDetails'
 import { useWallet } from '../providers/WalletProvider'
 
 export const ConnectWallet: React.FunctionComponent = () => {
-    const { accounts, address, balance, handleConnectWallet, handleDisconnectWallet, loading, errorMessage } = useWallet()
+    const { loading, errorMessage, ...rest } = useWallet()
 
     if (loading) {
-        return <div>connecting...</div>
+        return <Status status={'connecting'} />
     }
     
   return (
-    <div>
-        {errorMessage && (<div>
-            {errorMessage}
-        </div>)}
-        {!address ? (
-            <Button type={ButtonTypes.secondary} label={"Connect Wallet"} onClick={handleConnectWallet} />
-        ) : (
-            <Button type={ButtonTypes.secondary} label={"Disconnect Wallet"} onClick={handleDisconnectWallet} />
-        )}
-        
-        {address && (
-        <div>Connected Wallet Address: {address}</div>
-        )}
-        {balance && (
-        <div>Connected Wallet Balance (ETH): {balance}</div>
-        )}
-        {accounts && (
-        <div>Connected Wallet Accounts: {accounts.map(account => <div key={account}>{account}</div>)}
-        </div>
-        )}
-    </div>
+    <Container>
+        {errorMessage && (<ErrorMessage errorMessage={errorMessage}/>)}
+        <WalletDetails {...rest} />
+    </Container>
 )}
