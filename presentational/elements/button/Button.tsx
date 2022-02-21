@@ -21,6 +21,7 @@ export interface IButtonProps {
   label: string
   onClick: () => void
   disabled?: boolean
+  testid?: string
 }
 
 export const Button: React.FunctionComponent<IButtonProps> = ({
@@ -28,6 +29,7 @@ export const Button: React.FunctionComponent<IButtonProps> = ({
   label,
   onClick,
   disabled,
+  testid
 }) => {
   let classes = useDefaultButtonStyles()
   let variant: keyof typeof ButtonVariants | undefined
@@ -52,6 +54,7 @@ export const Button: React.FunctionComponent<IButtonProps> = ({
       }}
       onClick={onClick}
       disabled={disabled}
+      data-testid={testid}
     >
       {label}
     </MuiButton>
