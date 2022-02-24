@@ -4,7 +4,6 @@ import { Button, ButtonTypes } from "../elements/button/Button";
 interface IWalletDetailsProps {
   address?: string;
   balance?: string;
-  accounts?: string[];
   handleConnectWallet?: () => void;
   handleDisconnectWallet?: () => void;
 }
@@ -12,7 +11,6 @@ interface IWalletDetailsProps {
 export const WalletDetails: React.FunctionComponent<IWalletDetailsProps> = ({
   address,
   balance,
-  accounts,
   handleConnectWallet,
   handleDisconnectWallet,
 }) => (
@@ -41,14 +39,6 @@ export const WalletDetails: React.FunctionComponent<IWalletDetailsProps> = ({
     {balance && (
       <div data-testid={"connected-account-balance"}>
         Connected Account Balance (ETH): {balance}
-      </div>
-    )}
-    {accounts && (
-      <div>
-        Connected Wallet Accounts:{" "}
-        {accounts.map((account) => (
-          <div key={account}>{account}</div>
-        ))}
       </div>
     )}
   </>

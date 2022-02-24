@@ -8,7 +8,6 @@ const WalletContext = React.createContext(null);
 
 const useWallet = (): {
   loading?: boolean;
-  accounts?: string[];
   address?: string;
   balance?: string;
   errorMessage: string;
@@ -20,7 +19,6 @@ const useWallet = (): {
     handleError,
     loading,
     setLoading,
-    accounts,
     balance,
     address,
     errorMessage,
@@ -56,7 +54,6 @@ const useWallet = (): {
 
   return {
     loading,
-    accounts,
     address,
     balance,
     handleConnectWallet,
@@ -70,10 +67,6 @@ const WalletProvider = ({ children }) => {
   const [errorMessage, setErrorMessage] = useState<string>(null);
   const [address, setAddress] = useLocalStorage(`${uuid}-walletAddress`, null);
   const [balance, setBalance] = useLocalStorage(`${uuid}-walletBalance`, null);
-  const [accounts, setAccounts] = useLocalStorage(
-    `${uuid}-walletAccounts`,
-    null
-  );
   const [hasListenerAttached, setHasListenerAttached] = useLocalStorage(
     "walletListenerAttached",
     false
@@ -83,19 +76,16 @@ const WalletProvider = ({ children }) => {
   const clearConnectionDetails = useCallback(() => {
     setAddress(null);
     setBalance(null);
-    setAccounts(null);
-  }, [setAddress, setBalance, setAccounts]);
+  }, [setAddress, setBalance]);
 
   const updateConnectionDetails = useCallback(async () => {
     const signer = await provider.getSigner();
     const address = await signer.getAddress();
-    const accounts = await provider.listAccounts();
     const balance = await provider.getBalance(address);
     setAddress(address);
     setBalance(ethers.utils.formatEther(balance.toString()));
-    setAccounts(accounts);
     setErrorMessage(null);
-  }, [setAddress, setBalance, setAccounts]);
+  }, [setAddress, setBalance]);
 
   const handleError = useCallback(
     (message) => {
@@ -135,7 +125,6 @@ const WalletProvider = ({ children }) => {
       value={{
         hasListenerAttached,
         setHasListenerAttached,
-        accounts,
         address,
         balance,
         loading,
