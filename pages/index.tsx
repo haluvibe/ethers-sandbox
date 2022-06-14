@@ -2,10 +2,11 @@ import React from "react";
 import { ConnectWallet } from "../container/ConnectWallet";
 import { Container } from "../presentational/layout/Container";
 import { WalletProvider } from "../providers/WalletProvider";
-import { UserProfile } from "../sandbox/UserProfile";
 import { provider } from "../providers/Ethereum";
 import { UserProvider } from "../providers/UserProvider";
-import { EnterPin } from "../sandbox/EnterPinComponent";
+import { UserProfile } from "../container/UserProfile";
+import { EnterPin } from "../container/EnterPin";
+
 
 const Home: React.FunctionComponent = () => {
   if (!provider) {

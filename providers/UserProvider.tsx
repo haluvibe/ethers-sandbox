@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { gun, user } from "./Gun";
+import { user } from "./Gun";
 import { useWallet } from "./WalletProvider";
 
 const UserContext = React.createContext(null);
@@ -41,19 +41,18 @@ const UserProvider = ({ children }) => {
       if ("pub" in result) {
         setPublicKey(result?.pub);
       }
-      if ("err" in result) {
-        if (result?.err === "User already created!") {
-          user.auth(address, `${pin}-forever-decentralized`, (result) => {
-            if ("err" in result) {
-              setUserErrorMessage(result?.err);
-              return;
-            }
-            // @ts-ignore
-            setPublicKey(result?.root?.user?.is?.pub);
-          });
-          return;
-        }
+      if ("err" in result && !(result?.err === "User already created!")) {
         setUserErrorMessage(result?.err);
+      }
+      if ("err" in result && result?.err === "User already created!") {
+        user.auth(address, `${pin}-forever-decentralized`, (result) => {
+          if ("err" in result) {
+            setUserErrorMessage(result?.err);
+            return;
+          }
+          // @ts-ignore
+          setPublicKey(result?.root?.user?.is?.pub);
+        });
       }
     });
   }, [address, pin]);

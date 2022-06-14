@@ -4,9 +4,8 @@ interface IErrorMessageProps {
   errorMessage: string;
 }
 
-export const ErrorMessage: React.FunctionComponent<IErrorMessageProps> = ({ errorMessage }) => {    
-  return (
+export const ErrorMessage: React.FunctionComponent<IErrorMessageProps> = ({ errorMessage }) => (
     <div>
         {errorMessage}
     </div>
-)}
+)
