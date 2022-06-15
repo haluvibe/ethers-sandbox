@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { user } from "./Gun";
+import { createUser } from "../mutations/createUser";
 import { useWallet } from "./WalletProvider";
 
 const UserContext = React.createContext(null);
@@ -32,29 +32,21 @@ const UserProvider = ({ children }) => {
   const [userErrorMessage, setUserErrorMessage] = useState<string>(null);
 
   useEffect(() => {
-    if (!address || !pin) {
-      setPublicKey(null);
-      setUserErrorMessage(null);
-      return;
+    const handleAddressOrPinChange = async () => {
+      if (!address || !pin) {
+        setPublicKey(null);
+        setUserErrorMessage(null);
+        return;
+      }
+      const { errorMessage, publicKey } = await createUser(address, pin)
+      if (publicKey) {
+        setPublicKey(publicKey);
+      }
+      if (errorMessage) {
+        setUserErrorMessage(errorMessage);
+      }
     }
-    user.create(address, `${pin}-forever-decentralized`, (result) => {
-      if ("pub" in result) {
-        setPublicKey(result?.pub);
-      }
-      if ("err" in result && !(result?.err === "User already created!")) {
-        setUserErrorMessage(result?.err);
-      }
-      if ("err" in result && result?.err === "User already created!") {
-        user.auth(address, `${pin}-forever-decentralized`, (result) => {
-          if ("err" in result) {
-            setUserErrorMessage(result?.err);
-            return;
-          }
-          // @ts-ignore
-          setPublicKey(result?.root?.user?.is?.pub);
-        });
-      }
-    });
+    handleAddressOrPinChange()
   }, [address, pin]);
 
   return (

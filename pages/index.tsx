@@ -6,14 +6,13 @@ import { provider } from "../providers/Ethereum";
 import { UserProvider } from "../providers/UserProvider";
 import { UserProfile } from "../container/UserProfile";
 import { EnterPin } from "../container/EnterPin";
+import { PleaseInstallWallet } from "../presentational/modules/PleaseInstallWallet";
 
 
 const Home: React.FunctionComponent = () => {
   if (!provider) {
     return (
-      <div>
-        Please install an ethereum wallet such as Metamask to use this dApp
-      </div>
+      <PleaseInstallWallet />
     );
   }
   return (

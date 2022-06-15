@@ -1,31 +1,30 @@
 import { useEffect, useState } from "react";
-import { gun } from "../providers/Gun";
+import { updateUsername } from "../mutations/updateUsername";
 import { useUser } from "../providers/UserProvider";
+import { getUsername } from "../queries/getUsername";
+import { listenToUsername, removeListenerToUsername } from "../queries/listenToUsername";
 
 export const useUserProfile = () => {
     const [username, setUsername] = useState<string>("");
     const { publicKey, pin, userErrorMessage } = useUser();
   
     useEffect(() => {
-      if (!publicKey || !pin) {
-        return;
-      }
-      gun.get(publicKey).once((node) => {
-        // Retrieve the username value on startup
-        if (!node) {
-          gun.get(publicKey).put({ username: "username" });
+      const handlePublicKeyOrPinChange = async () => {
+        if (!publicKey || !pin) {
           return;
         }
-        setUsername(node.username);
-      });
-  
-      gun.get(publicKey).on((node) => {
-        setUsername(node.username);
-      });
+        const usernameFromDB = await getUsername(publicKey)
+        setUsername(usernameFromDB)
+        listenToUsername(publicKey, setUsername)
+      }
+      handlePublicKeyOrPinChange()
+      return () => {
+        removeListenerToUsername(publicKey)
+      }
     }, [publicKey, pin]);
   
     const updateUserName = (event: React.ChangeEvent<HTMLInputElement>) => {
-      gun.get(publicKey).put({ username: event.target.value }); // Edit the value in our db
+      updateUsername(publicKey, event.target.value)
       setUsername(event.target.value);
     };
 

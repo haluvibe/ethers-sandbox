@@ -1,12 +1,11 @@
 import { NextPageContext } from "next";
+import { ErrorMessage } from "../presentational/modules/ErrorMessage";
 
 const Error = ({ statusCode }) => {
   return (
-    <p>
-      {statusCode
-        ? `An error ${statusCode} occurred on server`
-        : "An error occurred on client"}
-    </p>
+    <ErrorMessage errorMessage={statusCode
+      ? `An error ${statusCode} occurred on server`
+      : "An error occurred on client"}/>
   );
 };
 
